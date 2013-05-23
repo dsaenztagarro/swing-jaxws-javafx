@@ -1,0 +1,140 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.route.main;
+
+import hidrocon.core.database.route.entities.Route;
+import hidrocon.core.database.route.entities.RouteView;
+import hidrocon.core.pattern.mvc.HidroController;
+import hidrocon.core.pattern.observer.AppEvent;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.core.utils.ObservableActionKey;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class RouteMainPanelController extends HidroController {
+    
+    private Route routeSelected;
+    
+    private RouteMainPanelModel model;
+    private RouteMainPanelView view;
+    
+    public RouteMainPanelController(RouteMainPanelModel model, RouteMainPanelView view) {
+        this.model = model;
+        this.view = view;
+        view.addController(this);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        
+        if (action.equals(ActionKey.ROUTE_PRINT)) {
+            printRoute();
+        }
+        else if (action.equals(ActionKey.ROUTE_CREATE)) {
+            createRoute();
+        }        
+        else if (action.equals(ActionKey.ROUTE_UPDATE)) {
+            updateRoute();
+        }
+        else if (action.equals(ActionKey.ROUTE_DELETE)) {
+            deleteRoute();
+        }        
+    }    
+    
+    @Override
+    public void keyPressed(KeyEvent evt) {
+        int keyCode = evt.getKeyCode();
+		if (keyCode == KeyEvent.VK_ENTER) {
+			evt.consume();
+			updateRoute();
+		}
+		else if (keyCode == KeyEvent.VK_F1) {
+			evt.consume();
+            //showNeighbourList();
+		}
+		else if (keyCode == KeyEvent.VK_F4) {
+			evt.consume();
+			deleteRoute();
+		}
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent evt) {
+        Component component = evt.getComponent();
+        RouteView routeView = view.getRouteSelected();
+        if (routeView!=null) {
+            routeSelected = model.getRoute(routeView.getId());
+        } else {
+            routeSelected = null;
+        }
+        
+        if (evt.getClickCount() == 2) {
+            evt.consume();
+            updateRoute();
+        }
+    }
+    
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        AppEvent message = null;
+        if (!e.getValueIsAdjusting()) {
+            ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+            if (lsm.isSelectionEmpty()) {
+                message = new AppEvent(ObservableActionKey.ROW_UNSELECTED);
+            } else {
+                RouteView routeView = view.getRouteSelected();
+                message = new AppEvent(ObservableActionKey.ROW_SELECTED, routeView);
+            }
+        }
+        if (message != null) {
+            this.setChanged();
+            this.notifyObservers(message);
+        }
+    }    
+    
+    private void printRoute() {
+        
+    }
+    
+    private void createRoute() {
+        Route route = new Route();  
+        boolean created = model.createRoute(route);
+        if (created) {
+            view.refreshRouteList(model.getAllRoute());
+            model.showMessageRouteCreated();
+        }
+    }
+    
+    private void updateRoute() {
+        boolean updated = model.updateRoute(routeSelected);
+        if (updated) {
+            view.refreshRouteList(model.getAllRoute());
+            model.showMessageRouteUpdated();
+        }
+    }
+    
+    private void deleteRoute() {
+        boolean deleted = model.deleteRoute(routeSelected);
+        if (deleted) {
+            view.refreshRouteList(model.getAllRoute());
+            model.showMessageRouteDeleted();
+            routeSelected = null;
+        }
+    }
+    
+    public Route getRouteSelected() {
+        return routeSelected;
+    }
+    
+}

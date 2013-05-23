@@ -1,0 +1,62 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package hidrocon.core.database.routebuilding.manager;
+
+import hidrocon.core.database.building.bc.BuildingBC;
+import hidrocon.core.database.routebuilding.bc.RouteBuildingBC;
+import hidrocon.core.database.routebuilding.entities.RouteBuilding;
+import hidrocon.core.database.routebuilding.entities.RouteBuildingPK;
+import hidrocon.core.database.routebuilding.entities.RouteBuildingView;
+import java.util.List;
+
+/**
+ *
+ * @author david
+ */
+public class RouteBuildingManager {
+
+	public List getBuildingAvailableList() {
+		BuildingBC bc = new BuildingBC();
+		List list = bc.getBuildingAvailableList();
+		return list;
+	}
+    
+    public List getRouteBuildingViewList(int routeId) {
+		RouteBuildingBC bc = new RouteBuildingBC();
+		List list = bc.getRouteBuildingViewList(routeId);
+		return list;    
+    }
+     
+	public void createRouteBuilding(RouteBuilding routebuilding) {
+		RouteBuildingBC bc = new RouteBuildingBC();
+		bc.createRouteBuilding(routebuilding);
+	}
+/*
+	public void updateRouteBuilding(RouteBuilding routebuilding) {
+		RouteBuildingBC bc = new RouteBuildingBC();
+		bc.updateRouteBuilding(routebuilding);
+	}*/
+    
+	public int deleteRouteBuilding(RouteBuildingPK pk, int orderId) {
+		RouteBuildingBC bc = new RouteBuildingBC();
+		return bc.deleteRouteBuilding(pk, orderId);
+	}
+    
+    
+    public void updateRouteBuildingList(int routeId, List<RouteBuildingView> list) {
+		RouteBuildingBC bc = new RouteBuildingBC();
+        bc.deleteRouteBuilding(routeId);
+        //Save new RouteBuilding list
+        for (RouteBuildingView rbv : list) {
+            RouteBuilding rb = new RouteBuilding();
+            rb.setRouteBuildingPK(rbv.getRouteBuildingPK());
+            rb.setOrderId(rbv.getOrderId());
+            bc.createRouteBuilding(rb);
+        }
+    }
+    
+
+}

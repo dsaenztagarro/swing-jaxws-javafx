@@ -1,0 +1,165 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.administrator.menu;
+
+import hidrocon.ui.administrator.menu.AdministratorMenuView;
+import hidrocon.core.database.administrator.entities.Administrator;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.custom.Constant;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JDialog;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class AdministratorMenuController implements ActionListener, KeyListener, MouseListener {
+    
+    private JDialog dialog;
+    
+    private Administrator selection;
+    
+    private AdministratorMenuModel model;
+    private AdministratorMenuView view;
+    
+    public AdministratorMenuController(AdministratorMenuModel model, AdministratorMenuView view) {
+        this.model = model;
+        this.view = view;
+        view.buttonActionListeners(this);
+        view.tableKeyListeners(this);
+        view.tableMouseListeners(this);
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        
+        if (action.equals(ActionKey.ADMINISTRATOR_CREATE)) {
+            createAdministrator();
+        }        
+        else if (action.equals(ActionKey.ADMINISTRATOR_UPDATE)) {
+            updateAdministrator();
+        }
+        else if (action.equals(ActionKey.ADMINISTRATOR_DELETE)) {
+            deleteAdministrator();
+        }        
+        else if (action.equals(ActionKey.ADMINISTRATOR_SELECT)) {
+            selectAdministrator();
+        }        
+        else if (action.equals(ActionKey.ADMINISTRATOR_CLOSE)) {
+            close();
+        }        
+        
+    }
+
+    private void createAdministrator() {
+        Administrator administrator = new Administrator();  
+        administrator.setRecStatus(Constant.RECORD_STATUS_ACTIVE);
+        boolean created = model.createAdministrator(administrator);
+        if (created) {
+            view.addAdministrator(administrator);
+            model.showMessageAdministratorCreated();
+        }
+    }
+    
+    private void updateAdministrator() {
+        Administrator administrator = view.getAdministratorSelected();  
+        boolean updated = model.updateAdministrator(administrator);
+        if (updated) {
+            view.refreshAdministratorList();
+            model.showMessageAdministratorUpdated();
+        }
+    }
+    
+    private void deleteAdministrator() {
+        Administrator administrator = view.getAdministratorSelected();  
+        boolean deleted = model.deleteAdministrator(administrator);
+        if (deleted) {
+            view.removeAdministrator(administrator);
+            model.showMessageAdministratorDeleted();
+        }
+    }
+    
+    private void selectAdministrator() {
+        selection = view.getAdministratorSelected();
+        if (selection!=null) {
+            close();
+        }
+    }
+    
+    private void close() {
+        if (dialog!=null) {
+            dialog.setVisible(false);
+        }
+    }
+    
+    public void clearSelection() {
+        selection = null;
+    }
+    
+    public Administrator getAdministratorSelected() {
+        return selection;
+    }
+    
+    public boolean isAdministratorSelected() {
+        return selection!=null;
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        //do nothing
+    }
+
+    public void keyPressed(KeyEvent evt) {
+        int keyCode = evt.getKeyCode();
+        if (keyCode == KeyEvent.VK_F8) {
+            createAdministrator();
+            evt.consume();
+        }
+        else if (keyCode == KeyEvent.VK_ENTER) {
+            updateAdministrator();
+            evt.consume();
+        }
+        else if (keyCode == KeyEvent.VK_F9) {
+            deleteAdministrator();
+            evt.consume();
+        }  
+    }
+
+    public void keyReleased(KeyEvent e) {
+        //do nothing
+    }
+
+    
+    public void mouseClicked(MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+            evt.consume();
+            updateAdministrator();
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+        //do nothing
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        //do nothing
+    }
+
+    public void mouseEntered(MouseEvent e) {
+        //do nothing
+    }
+
+    public void mouseExited(MouseEvent e) {
+        //do nothing
+    }
+
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
+    }
+}

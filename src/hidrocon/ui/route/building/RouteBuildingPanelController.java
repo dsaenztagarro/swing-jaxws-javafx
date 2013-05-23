@@ -1,0 +1,184 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.route.building;
+
+import hidrocon.core.database.route.entities.Route;
+import hidrocon.core.database.routebuilding.entities.RouteBuildingView;
+import hidrocon.core.pattern.mvc.HidroController;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.custom.Constant;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class RouteBuildingPanelController extends HidroController {
+    
+    private JDialog dialog;
+    
+    private Route routeSelected;
+    private RouteBuildingView routeBuildingSelected;
+    
+    private RouteBuildingPanelModel model;
+    private RouteBuildingPanelView view;
+    
+    public RouteBuildingPanelController(RouteBuildingPanelModel model, RouteBuildingPanelView view) {
+        this.model = model;
+        this.view = view;
+        view.buttonActionListeners(this);
+        view.tableKeyListeners(this);
+        view.tableMouseListeners(this);
+        view.setMode(Constant.VIEW_MODE_READONLY);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        
+        if (action.equals(ActionKey.ROUTE_BUILDING_CREATE)) {
+            createRouteBuilding();
+        }                
+        else if (action.equals(ActionKey.ROUTE_BUILDING_DELETE)) {
+            deleteRouteBuilding();
+        }                
+        else if (action.equals(ActionKey.ROUTE_BUILDING_EDIT)) {
+            editRouteBuilding();
+        }                
+        else if (action.equals(ActionKey.ROUTE_BUILDING_SAVE)) {
+            saveRouteBuilding();
+        }                        
+        else if (action.equals(ActionKey.ROUTE_BUILDING_MOVE_UP)) {
+            moveUpRouteBuilding();
+        }                
+        else if (action.equals(ActionKey.ROUTE_BUILDING_MOVE_DOWN)) {
+            moveDownRouteBuilding();
+        }                
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent evt) {
+        routeBuildingSelected = view.getRouteBuildingSelected();
+    }
+    
+    public void setRoute(Route route) {
+        this.routeSelected = route;
+        
+        view.setRouteBuildingList(model.getRouteBuildingList(routeSelected));
+        view.setMode(Constant.VIEW_MODE_READONLY);
+    }
+    
+    private void createRouteBuilding() {
+        int size = view.getRouteBuildingList()!=null? view.getRouteBuildingList().size() : -1;
+        
+        boolean created = model.createRouteBuilding(routeSelected, size);
+        if (created) {
+            view.setRouteBuildingList(model.getRouteBuildingList(routeSelected));
+            model.showMessageRouteBuildingCreated();
+        }
+    }
+    
+    private void deleteRouteBuilding() {
+        boolean deleted = model.deleteRouteBuilding(routeBuildingSelected);
+        if (deleted) {
+            view.setRouteBuildingList(model.getRouteBuildingList(routeSelected));
+            model.showMessageRouteBuildingDeleted();
+            routeBuildingSelected = null;
+        }
+    }
+    
+    private void editRouteBuilding() {
+        view.setMode(Constant.VIEW_MODE_UPDATE);
+    }
+
+    private void saveRouteBuilding() {
+        List list = view.getRouteBuildingList();
+        model.updateRouteBuildingList(routeSelected, list);
+        
+        view.setMode(Constant.VIEW_MODE_READONLY);
+        model.showMessageRouteBuildingUpdated();
+     }
+    
+    private void moveUpRouteBuilding() {
+        List routeBuildingList = view.getRouteBuildingList();
+        ArrayList list = new ArrayList();
+        list.addAll(routeBuildingList);
+
+        int indexSelected = view.getRouteBuildingSelectedIndex();
+        int newIndexSelected = model.changeRouteBuildingOrder(list, indexSelected, Constant.MOVE_UP);
+        if (newIndexSelected >-1) {
+            view.setRouteBuildingList(list);
+            view.selectRouteBuildingTableRow(newIndexSelected);
+        }    
+    }
+    
+    private void moveDownRouteBuilding() {
+        List routeBuildingList = view.getRouteBuildingList();
+        ArrayList list = new ArrayList();
+        list.addAll(routeBuildingList);
+        
+        int indexSelected = view.getRouteBuildingSelectedIndex();
+        int newIndexSelected = model.changeRouteBuildingOrder(list, indexSelected, Constant.MOVE_DOWN);
+        if (newIndexSelected >-1) {
+            view.setRouteBuildingList(list);
+            view.selectRouteBuildingTableRow(newIndexSelected);
+        }
+    }
+    
+    private void close() {
+        if (dialog!=null) {
+            dialog.setVisible(false);
+        }
+    }
+    
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
+    }
+    
+    protected void initKeyBinding() {
+        javax.swing.Action editAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                editRouteBuilding();
+            }
+        };   
+        
+        javax.swing.Action saveAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                saveRouteBuilding();
+            }
+        };        
+
+        javax.swing.Action closeAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                close();
+            }
+        };        
+        
+        JPanel mainPanel = view.getMainPanel();
+        
+        SwingUtilities.replaceUIActionMap(mainPanel, null);
+        SwingUtilities.replaceUIInputMap(mainPanel, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, null);
+        
+        InputMap inputMap = mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke("F10"),"editRouteBuildingDate_F10");        
+        inputMap.put(KeyStroke.getKeyStroke("F11"),"saveRouteBuildingDate_F11");
+        inputMap.put(KeyStroke.getKeyStroke("F12"),"closeRouteBuildingDate_F12");
+        mainPanel.getActionMap().put("editRouteBuildingDate_F10",editAction);
+        mainPanel.getActionMap().put("saveRouteBuildingDate_F11",saveAction);
+        mainPanel.getActionMap().put("closeRouteBuildingDate_F12",closeAction);        
+    } 
+    
+}

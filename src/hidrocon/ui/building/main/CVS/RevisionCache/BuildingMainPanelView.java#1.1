@@ -1,0 +1,382 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * BuildingMainPanelView.java
+ *
+ * Created on 17-sep-2011, 5:03:08
+ */
+
+package hidrocon.ui.building.main;
+
+import hidrocon.HidroconView;
+import hidrocon.custom.button.toolbar.HidroDeleteButton;
+import hidrocon.custom.button.toolbar.HidroNewButton;
+import hidrocon.custom.button.toolbar.HidroPrintButton;
+import hidrocon.custom.button.toolbar.HidroNeighboursButton;
+import hidrocon.core.database.building.entities.Building;
+import hidrocon.core.database.building.manager.BuildingManager;
+import hidrocon.core.generic.pattern.mvc.HidroController;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.custom.button.toolbar.HidroInfoButton;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+/**
+ *
+ * @author david
+ */
+public class BuildingMainPanelView extends hidrocon.custom.panel.HidroMainPanel {
+
+	private final int COLUMN_BUILDING_CODE = 0;
+	private final int COLUMN_BUILDING_NUMBER = 2;
+
+    HidroPrintButton printButton;
+    HidroNeighboursButton neighboursButton;
+    HidroNewButton newButton;
+    HidroInfoButton infoButton;
+    HidroDeleteButton deleteButton;
+        
+    /** Creates new form BuildingMainPanelView */
+    public BuildingMainPanelView() {
+        initComponents();
+		initTopPanel();
+		initSearchFields();
+    }
+
+	/*
+	 * Toolbar Initialization
+	 */
+    
+	private void initTopPanel() {
+		org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+		topPanel.setTitle("  " + resourceMap.getString("building.details.toppanel.title"));
+		
+		printButton = new HidroPrintButton();
+		neighboursButton = new HidroNeighboursButton();
+		newButton = new HidroNewButton();
+		infoButton = new HidroInfoButton();
+		deleteButton = new HidroDeleteButton();
+     
+        printButton.setToolTipText(resourceMap.getString("building.toolbar.printbutton.tooltip"));
+		neighboursButton.setToolTipText(resourceMap.getString("building.toolbar.viewneighboursbutton.tooltip"));
+		newButton.setToolTipText(resourceMap.getString("building.toolbar.newbutton.tooltip"));
+		infoButton.setToolTipText(resourceMap.getString("building.toolbar.infobutton.tooltip"));
+		deleteButton.setToolTipText(resourceMap.getString("building.toolbar.deletebutton.tooltip"));
+		
+		topPanel.addButton(printButton);
+		topPanel.addButton(neighboursButton);
+		topPanel.addButton(newButton);
+		topPanel.addButton(infoButton);
+		topPanel.addButton(deleteButton);
+	}
+
+	public void refreshBuildingList() {
+		java.util.List auxList = new java.util.ArrayList();
+		auxList.addAll(buildingList);
+		buildingList.clear();
+		buildingList.addAll(auxList);
+	}    
+    
+    public Building getBuildingSelected() {
+		if (buildingTable.getSelectedRow() > -1) {
+			return buildingList.get(buildingTable.convertRowIndexToModel(buildingTable.getSelectedRow()));
+        }
+        return null;
+    }
+    
+    protected void addBuilding(Building building) {
+        buildingList.add(building);
+    }
+    
+    protected void removeBuilding(Building building) {
+        buildingList.remove(building);        
+    }      
+    
+    
+	/*
+	 * Search filter methods
+	 */
+
+	private void initSearchFields() {
+		initBuildingCodeFilter();
+		initBuildingNumberFilter();
+	}
+
+	private void initBuildingCodeFilter() {
+		buildingCodeField.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				filterByBuildingCode();
+			}
+			public void insertUpdate(DocumentEvent e) {
+				filterByBuildingCode();
+			}
+			public void removeUpdate(DocumentEvent e) {
+				filterByBuildingCode();
+			}
+		});
+	}
+	
+	private void initBuildingNumberFilter() {
+		buildingNumberField.getDocument().addDocumentListener(
+            new DocumentListener() {
+                public void changedUpdate(DocumentEvent e) {
+                    filterByBuildingNumber();
+                }
+                public void insertUpdate(DocumentEvent e) {
+                    filterByBuildingNumber();
+                }
+                public void removeUpdate(DocumentEvent e) {
+                    filterByBuildingNumber();
+                }
+            });
+	}
+
+    private void filterByBuildingCode() {
+		String value = buildingCodeField.getText();
+		if (value!=null && !value.equals("")) {
+			clearOtherFilters(COLUMN_BUILDING_CODE);
+			buildingTable.newFilter(value, COLUMN_BUILDING_CODE);
+		} else {
+			buildingTable.clearFilter();
+		}
+    }
+
+    private void filterByBuildingNumber() {		
+		String value = buildingNumberField.getText();
+		if (value!=null && !value.equals("")) {
+			clearOtherFilters(COLUMN_BUILDING_NUMBER);
+			buildingTable.newNumberFilter(new Integer(value), COLUMN_BUILDING_NUMBER);
+		} else {
+			buildingTable.clearFilter();
+		}
+    }
+
+	private void clearOtherFilters(int selectedColumn) {
+		if (selectedColumn == COLUMN_BUILDING_CODE) {
+			buildingNumberField.setText("");
+		}
+		else if (selectedColumn == COLUMN_BUILDING_NUMBER) {
+			buildingCodeField.setText("");
+		}
+	}
+
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        BuildingManager buildingManager = new BuildingManager();
+        buildingList = java.beans.Beans.isDesignTime()? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(buildingManager.getAllBuilding());
+        mainPanel = new hidrocon.custom.panel.HidroPanel();
+        rightPanel = new hidrocon.custom.panel.HidroPanel();
+        leftPanel = new hidrocon.custom.panel.HidroPanel();
+        buildingScrollPane = new javax.swing.JScrollPane();
+        buildingTable = new hidrocon.custom.table.HidroTable();
+        maintopPanel = new hidrocon.custom.panel.HidroPanel();
+        buildingCodeLabel = new hidrocon.custom.label.HidroLabel();
+        buildingCodeField = new hidrocon.custom.field.HidroTextField();
+        buildingNumberField = new hidrocon.custom.field.HidroTextField();
+        buildingNumberLabel = new hidrocon.custom.label.HidroLabel();
+        buscarInicialFilterLegend = new hidrocon.custom.legend.FilterLegend();
+        numerofincaFilterLegend = new hidrocon.custom.legend.FilterLegend();
+        mainbottomPanel = new hidrocon.custom.panel.HidroPanel();
+        topPanel = new hidrocon.custom.panel.HidroTopPanel();
+
+        setBorder(null);
+        setName("Form"); // NOI18N
+        setLayout(new java.awt.BorderLayout());
+
+        mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
+        rightPanel.setName("rightPanel"); // NOI18N
+        rightPanel.setPreferredSize(new java.awt.Dimension(25, 345));
+
+        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
+        rightPanel.setLayout(rightPanelLayout);
+        rightPanelLayout.setHorizontalGroup(
+            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        rightPanelLayout.setVerticalGroup(
+            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(rightPanel, java.awt.BorderLayout.EAST);
+
+        leftPanel.setName("leftPanel"); // NOI18N
+        leftPanel.setPreferredSize(new java.awt.Dimension(25, 20));
+
+        javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
+        leftPanel.setLayout(leftPanelLayout);
+        leftPanelLayout.setHorizontalGroup(
+            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        leftPanelLayout.setVerticalGroup(
+            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(leftPanel, java.awt.BorderLayout.WEST);
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(BuildingMainPanelView.class);
+        buildingScrollPane.setBackground(resourceMap.getColor("")); // NOI18N
+        buildingScrollPane.setName("buildingScrollPane"); // NOI18N
+        buildingScrollPane.setOpaque(false);
+
+        buildingTable.setName("buildingTable"); // NOI18N
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, buildingList, buildingTable);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${buildingCode}"));
+        columnBinding.setColumnName("Building Code");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
+        columnBinding.setColumnName("Address");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${buildingNumber}"));
+        columnBinding.setColumnName("Building Number");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        buildingScrollPane.setViewportView(buildingTable);
+        buildingTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        buildingTable.getColumnModel().getColumn(0).setMinWidth(100);
+        buildingTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("buildingTable.columnModel.title0")); // NOI18N
+        buildingTable.getColumnModel().getColumn(1).setMinWidth(300);
+        buildingTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("buildingTable.columnModel.title1")); // NOI18N
+        buildingTable.getColumnModel().getColumn(2).setMinWidth(100);
+        buildingTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("buildingTable.columnModel.title2")); // NOI18N
+
+        mainPanel.add(buildingScrollPane, java.awt.BorderLayout.CENTER);
+
+        maintopPanel.setName("maintopPanel"); // NOI18N
+        maintopPanel.setPreferredSize(new java.awt.Dimension(712, 45));
+
+        buildingCodeLabel.setText(resourceMap.getString("buildingCodeLabel.text")); // NOI18N
+        buildingCodeLabel.setName("buildingCodeLabel"); // NOI18N
+
+        buildingCodeField.setEditable(true);
+        buildingCodeField.setName("buildingCodeField"); // NOI18N
+
+        buildingNumberField.setEditable(true);
+        buildingNumberField.setText(resourceMap.getString("buildingNumberField.text")); // NOI18N
+        buildingNumberField.setName("buildingNumberField"); // NOI18N
+
+        buildingNumberLabel.setText(resourceMap.getString("buildingNumberLabel.text")); // NOI18N
+        buildingNumberLabel.setName("buildingNumberLabel"); // NOI18N
+
+        buscarInicialFilterLegend.setText(resourceMap.getString("buscarInicialFilterLegend.text")); // NOI18N
+        buscarInicialFilterLegend.setName("buscarInicialFilterLegend"); // NOI18N
+
+        numerofincaFilterLegend.setText(resourceMap.getString("numerofincaFilterLegend.text")); // NOI18N
+        numerofincaFilterLegend.setName("numerofincaFilterLegend"); // NOI18N
+
+        javax.swing.GroupLayout maintopPanelLayout = new javax.swing.GroupLayout(maintopPanel);
+        maintopPanel.setLayout(maintopPanelLayout);
+        maintopPanelLayout.setHorizontalGroup(
+            maintopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(maintopPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(buildingCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(buscarInicialFilterLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(buildingNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(numerofincaFilterLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(330, Short.MAX_VALUE))
+        );
+        maintopPanelLayout.setVerticalGroup(
+            maintopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(maintopPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(maintopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(numerofincaFilterLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarInicialFilterLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(maintopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buildingCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buildingCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buildingNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buildingNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(maintopPanel, java.awt.BorderLayout.PAGE_START);
+
+        mainbottomPanel.setName("mainbottomPanel"); // NOI18N
+        mainbottomPanel.setPreferredSize(new java.awt.Dimension(712, 20));
+
+        javax.swing.GroupLayout mainbottomPanelLayout = new javax.swing.GroupLayout(mainbottomPanel);
+        mainbottomPanel.setLayout(mainbottomPanelLayout);
+        mainbottomPanelLayout.setHorizontalGroup(
+            mainbottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 750, Short.MAX_VALUE)
+        );
+        mainbottomPanelLayout.setVerticalGroup(
+            mainbottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(mainbottomPanel, java.awt.BorderLayout.PAGE_END);
+
+        add(mainPanel, java.awt.BorderLayout.CENTER);
+
+        topPanel.setName("topPanel"); // NOI18N
+        add(topPanel, java.awt.BorderLayout.PAGE_START);
+
+        bindingGroup.bind();
+    }// </editor-fold>//GEN-END:initComponents
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private hidrocon.custom.field.HidroTextField buildingCodeField;
+    private hidrocon.custom.label.HidroLabel buildingCodeLabel;
+    private java.util.List<Building> buildingList;
+    private hidrocon.custom.field.HidroTextField buildingNumberField;
+    private hidrocon.custom.label.HidroLabel buildingNumberLabel;
+    private javax.swing.JScrollPane buildingScrollPane;
+    private hidrocon.custom.table.HidroTable buildingTable;
+    private hidrocon.custom.legend.FilterLegend buscarInicialFilterLegend;
+    private hidrocon.custom.panel.HidroPanel leftPanel;
+    private hidrocon.custom.panel.HidroPanel mainPanel;
+    private hidrocon.custom.panel.HidroPanel mainbottomPanel;
+    private hidrocon.custom.panel.HidroPanel maintopPanel;
+    private hidrocon.custom.legend.FilterLegend numerofincaFilterLegend;
+    private hidrocon.custom.panel.HidroPanel rightPanel;
+    private hidrocon.custom.panel.HidroTopPanel topPanel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+    
+    protected void addController(HidroController controller) {
+        printButton.setActionCommand(ActionKey.BUILDING_PRINT);
+		printButton.addActionListener(controller);
+        neighboursButton.setActionCommand(ActionKey.BUILDING_VIEW_NEIGHBOURS);
+        neighboursButton.addActionListener(controller);        
+		newButton.setActionCommand(ActionKey.BUILDING_CREATE);
+        newButton.addActionListener(controller);
+        infoButton.setActionCommand(ActionKey.BUILDING_UPDATE);
+		infoButton.addActionListener(controller);
+        deleteButton.setActionCommand(ActionKey.BUILDING_DELETE);
+		deleteButton.addActionListener(controller);
+        
+        buildingTable.getSelectionModel().addListSelectionListener(controller);
+    }
+    
+}

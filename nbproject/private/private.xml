@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/route/details/RouteDetailsPanelModel.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/administrator/details/AdministratorDetailsModel.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/route/details/RouteDetailsPanelController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/administrator/details/AdministratorDetailsController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/route/menu/RouteMenuController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/webservice/GetRouteBuildingViewListResponse.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/route/routebuildingdate/RouteBuildingDateDetailsModel.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/route/routebuildingdate/RouteBuildingDateDetailsController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/core/migration/utils/MigrationUtils.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/building/details/BuildingDetailsPanelController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/building/details/BuildingDetailsPanelModel.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/administrator/menu/AdministratorMenuModel.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/administrator/menu/AdministratorMenuController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/neighbour/main/NeighbourMainPanelController.java</file>
+        <file>file:/home/davlanca/NetBeansProjects/hidrocon/src/hidrocon/ui/neighbour/details/NeighbourDetailsPanelController.java</file>
+    </open-files>
+</project-private>

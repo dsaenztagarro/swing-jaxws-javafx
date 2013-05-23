@@ -1,0 +1,25 @@
+<jnlp spec="1.0+"  xmlns:jfx="http://javafx.com" codebase="file:/home/davlanca/Desarrollo/projects/hidrocon/hidrocon.jnlp" href="launch.jnlp">
+    <information>
+        <title>${APPLICATION.TITLE}</title>
+        <vendor>${APPLICATION.VENDOR}</vendor>
+        <homepage href="${APPLICATION.HOMEPAGE}"/>
+        <description>${APPLICATION.DESC}</description>
+        <description kind="short">${APPLICATION.DESC.SHORT}</description>
+        <!--${JNLP.ICONS}-->
+        <!--${JNLP.OFFLINE.ALLOWED}-->
+    </information>
+    <!--${JNLP.UPDATE}-->
+    <!--${JNLP.SECURITY}-->
+    <resources>
+        <!--${JNLP.RESOURCES.RUNTIME}-->
+        <!--${JNLP.RESOURCES.MAIN.JAR}-->
+        <!--${JNLP.RESOURCES.JARS}-->
+        <!--${JNLP.RESOURCES.EXTENSIONS}-->
+        <jfx:javafx-runtime version="2.0+" 
+            href="http://javadl.sun.com/webapps/download/GetFile/
+                    javafx-latest/windows-i586/javafx2.jnlp"/>        
+    </resources>
+    <application-desc main-class="${jnlp.main.class}">
+        <!--${JNLP.APPLICATION.ARGS}-->
+    </application-desc>
+</jnlp>

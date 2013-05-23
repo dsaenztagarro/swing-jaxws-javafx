@@ -1,0 +1,206 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * NeighbourDialog.java
+ *
+ * Created on 06-dic-2011, 4:32:08
+ */
+package hidrocon.ui.neighbour.dialog;
+
+import hidrocon.HidroconView;
+import hidrocon.custom.dialog.HidroDialog;
+import hidrocon.custom.dialog.interfaces.IEntityView;
+import hidrocon.custom.tab.HidroTabButtonView;
+import hidrocon.custom.tab.HidroTabKey;
+import hidrocon.custom.tab.HidroTabPanelController;
+import hidrocon.custom.tab.HidroTabPanelModel;
+import hidrocon.custom.tab.HidroTabPanelView;
+import hidrocon.custom.tab.ITabContainer;
+import hidrocon.ui.neighbour.details.NeighbourDetailsPanelController;
+import hidrocon.ui.neighbour.details.NeighbourDetailsPanelModel;
+import hidrocon.ui.neighbour.details.NeighbourDetailsPanelView;
+import hidrocon.ui.neighbour.meter.NeighbourMeterPanelController;
+import hidrocon.ui.neighbour.meter.NeighbourMeterPanelModel;
+import hidrocon.ui.neighbour.meter.NeighbourMeterPanelView;
+import hidrocon.ui.neighbour.meterreading.NeighbourMeterReadingPanelController;
+import hidrocon.ui.neighbour.meterreading.NeighbourMeterReadingPanelModel;
+import hidrocon.ui.neighbour.meterreading.NeighbourMeterReadingPanelView;
+import hidrocon.webservice.Neighbour;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public final class NeighbourDetailsDialog extends HidroDialog implements ITabContainer, IEntityView {
+
+    private HidroTabPanelModel tabModel;
+    private HidroTabPanelView tabView;
+    private HidroTabPanelController tabController;
+    private javax.swing.JPanel contentView;
+    
+    private NeighbourDetailsPanelModel detailsModel;    
+    private NeighbourDetailsPanelView detailsView;
+    private NeighbourDetailsPanelController detailsController;
+    
+    private NeighbourMeterPanelModel meterModel;    
+    private NeighbourMeterPanelView meterView;
+    private NeighbourMeterPanelController meterController;
+
+    private NeighbourMeterReadingPanelModel meterReadingModel;    
+    private NeighbourMeterReadingPanelView meterReadingView;
+    private NeighbourMeterReadingPanelController meterReadingController;
+    
+
+    /** Creates new form NeighbourDialog */
+    public NeighbourDetailsDialog(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        //initComponents();
+        initContent();
+    }
+    
+    private void initContent() {
+
+        initTabContent();
+        initTabPanel();
+        
+        detailsController.setDialog(this);
+        
+        BorderLayout layout = new BorderLayout();
+        setLayout(layout);
+        getContentPane().add(tabView, BorderLayout.PAGE_START);
+        getContentPane().add(contentView, BorderLayout.CENTER);
+        
+        //HidroBlockingLayerUI layerUI = new HidroBlockingLayerUI();
+        //JLayer<JPanel> jlayerMain = new JLayer<JPanel>(view, layerUI);
+        //getContentPane().add(jlayerMain);
+        pack();        
+    }
+    
+    private void initTabContent() {
+        //Tabs:
+        detailsView = new NeighbourDetailsPanelView();
+        detailsModel = new NeighbourDetailsPanelModel();
+        detailsController = new NeighbourDetailsPanelController(detailsModel, detailsView);
+        detailsView.setMinimumSize(new Dimension(650,535));
+        detailsView.setPreferredSize(new Dimension(650,535));
+        
+        meterView = new NeighbourMeterPanelView();
+        meterModel = new NeighbourMeterPanelModel();
+        meterController = new NeighbourMeterPanelController(meterModel, meterView);
+        meterView.setMinimumSize(new Dimension(650,535));
+        meterView.setPreferredSize(new Dimension(650,535)); 
+
+        meterReadingView = new NeighbourMeterReadingPanelView();
+        meterReadingModel = new NeighbourMeterReadingPanelModel();
+        meterReadingController = new NeighbourMeterReadingPanelController(meterReadingModel, meterReadingView);
+        meterReadingView.setMinimumSize(new Dimension(650,535));
+        meterReadingView.setPreferredSize(new Dimension(650,535)); 
+        
+        //Tab container:
+        contentView = new JPanel();
+        contentView.setLayout(new CardLayout());
+        contentView.add(detailsView,HidroTabKey.TAB_NEIGHBOUR_DETAILS_GENERAL);
+        contentView.add(meterView,HidroTabKey.TAB_NEIGHBOUR_DETAILS_METER);
+        contentView.add(meterReadingView,HidroTabKey.TAB_NEIGHBOUR_DETAILS_METER_READING);
+        
+        //controller.setDialog(this);
+        setMinimumSize(new Dimension(650,575));
+        setMaximumSize(new Dimension(650,575));
+        setPreferredSize(new Dimension(650,575));        
+    }
+    
+    private void initTabPanel() {
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+        
+        tabView = new HidroTabPanelView();
+        tabModel = new HidroTabPanelModel();
+        tabController = new HidroTabPanelController(tabModel, tabView);
+        tabController.setContainerController(this);
+        
+        ArrayList tabList = new ArrayList();
+        HidroTabButtonView hidroTabButtonView = new HidroTabButtonView();
+        hidroTabButtonView.setName(HidroTabKey.TAB_NEIGHBOUR_DETAILS_GENERAL);
+        hidroTabButtonView.setText(resourceMap.getString("tab.neighbour.details.general"));
+        hidroTabButtonView.setComponent(detailsView);
+        hidroTabButtonView.setEnabled(true);
+        hidroTabButtonView.setSelected(true);
+        hidroTabButtonView.addMouseListener(tabController);
+        tabList.add(hidroTabButtonView);
+        
+        HidroTabButtonView hidroTabButton2View = new HidroTabButtonView();
+        hidroTabButton2View.setName(HidroTabKey.TAB_NEIGHBOUR_DETAILS_METER);
+        hidroTabButton2View.setText(resourceMap.getString("tab.neighbour.details.meter"));
+        hidroTabButton2View.setComponent(meterView);
+        hidroTabButton2View.setEnabled(true);
+        hidroTabButton2View.addMouseListener(tabController);
+        tabList.add(hidroTabButton2View);
+        
+        HidroTabButtonView hidroTabButton3View = new HidroTabButtonView();
+        hidroTabButton3View.setName(HidroTabKey.TAB_NEIGHBOUR_DETAILS_METER_READING);
+        hidroTabButton3View.setText(resourceMap.getString("tab.neighbour.details.meterreading"));
+        hidroTabButton3View.setComponent(meterReadingView);
+        hidroTabButton3View.setEnabled(true);
+        hidroTabButton3View.addMouseListener(tabController);
+        tabList.add(hidroTabButton3View);
+        
+        tabController.add(tabList);  
+        tabController.selectFirstTab();
+    }
+    
+    public void setMode(int mode) {
+        //do nothing
+    }
+
+    public void setEntity(Object neighbour) {
+        Neighbour obj = (Neighbour)neighbour;
+        detailsController.setNeighbour(obj);
+        meterController.setNeighbour(obj);
+        meterReadingController.setNeighbour(obj);
+    }
+    
+    public boolean isEntityUpdated() {
+        //do nothing
+        return false; 
+    }
+    
+    public void showTabContent(Component component) {
+		CardLayout cl = (CardLayout)contentView.getLayout();
+        if (component instanceof NeighbourDetailsPanelView) {
+            cl.show(contentView, HidroTabKey.TAB_NEIGHBOUR_DETAILS_GENERAL);
+        }        
+        if (component instanceof NeighbourMeterPanelView) {
+            cl.show(contentView, HidroTabKey.TAB_NEIGHBOUR_DETAILS_METER);
+        }
+        if (component instanceof NeighbourMeterReadingPanelView) {
+            cl.show(contentView, HidroTabKey.TAB_NEIGHBOUR_DETAILS_METER_READING);
+        }        
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("Form"); // NOI18N
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+
+}

@@ -1,0 +1,100 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.administrator.menu;
+
+import hidrocon.HidroconApp;
+import hidrocon.HidroconView;
+import hidrocon.core.database.administrator.entities.Administrator;
+import hidrocon.core.database.administrator.manager.AdministratorManager;
+import hidrocon.custom.Constant;
+import hidrocon.custom.dialog.HidroDialog;
+import hidrocon.custom.dialog.interfaces.IEntityManager;
+import hidrocon.custom.utils.HidroDialogFactory;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class AdministratorMenuModel {
+    
+	public boolean createAdministrator(Administrator administrator) {
+        if (administrator!=null) {
+            HidroDialogFactory hdf = HidroDialogFactory.getInstance();
+            HidroDialog dialog = hdf.getDialog(HidroDialogFactory.ADMINISTRATOR_DETAILS);
+            IEntityManager emDialog = (IEntityManager)dialog;
+            emDialog.setEntity(administrator);
+            emDialog.setMode(Constant.ENTITY_MANAGEMENT_MODE_CREATION);        
+            HidroconApp.getApplication().show(dialog);
+
+            if (emDialog.isEntityUpdated()) {
+                AdministratorManager administratorsManager = new AdministratorManager();
+                administratorsManager.createAdministrator(administrator);
+                return true;
+            }
+        }
+        return false;
+	}
+    
+    public void showMessageAdministratorCreated() {
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+        Object[] options = { resourceMap.getString("message.dialog.continue") };
+        JOptionPane.showOptionDialog(null, resourceMap.getString("administrator.message.dialog.create"), resourceMap.getString("message.information"),
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+            null, options, options[0]);                    
+    }
+    
+	public boolean updateAdministrator(Administrator administrator) {
+		if (administrator!=null) {	
+            HidroDialogFactory hdf = HidroDialogFactory.getInstance();
+            HidroDialog dialog = hdf.getDialog(HidroDialogFactory.ADMINISTRATOR_DETAILS);
+            IEntityManager emDialog = (IEntityManager)dialog;
+			emDialog.setEntity(administrator);
+            emDialog.setMode(Constant.ENTITY_MANAGEMENT_MODE_VIEW);
+			HidroconApp.getApplication().show(dialog);
+            
+			if (emDialog.isEntityUpdated()) {
+				AdministratorManager administratorManager = new AdministratorManager();
+				administratorManager.updateAdministrator(administrator);
+                return true;
+			}
+		}
+        return false;
+    }
+    
+    public void showMessageAdministratorUpdated() {
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+        Object[] options = { resourceMap.getString("message.dialog.continue") };
+        JOptionPane.showOptionDialog(null, resourceMap.getString("administrator.message.dialog.edit"), resourceMap.getString("message.information"),
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+            null, options, options[0]);         
+    }
+    
+	public boolean deleteAdministrator(Administrator administrator) {
+		if (administrator!=null) {
+			org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+			Object[] options = { resourceMap.getString("message.dialog.yes"), resourceMap.getString("message.dialog.no") };
+			int optionSelected = JOptionPane.showOptionDialog(null, resourceMap.getString("administrator.message.dialog.delete.question"), "Atención",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+				null, options, options[0]);
+
+			if (optionSelected == 0) {
+				AdministratorManager administratorManager = new AdministratorManager();
+				administratorManager.deleteAdministrator(administrator);
+                return true;
+			}
+		}
+        return false;
+	}
+    
+    public void showMessageAdministratorDeleted() {
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+        Object[] options = { resourceMap.getString("message.dialog.continue") };
+        JOptionPane.showOptionDialog(null, resourceMap.getString("administrator.message.dialog.delete"), resourceMap.getString("message.information"),
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+            null, options, options[0]);         
+    }
+    
+}

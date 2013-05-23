@@ -1,0 +1,52 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.core.generic.pattern.observer;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class AppEvent {
+    private String eventName;
+    private Object argument;
+
+    public AppEvent(String eventName) {
+        this(eventName,null);
+    }
+    
+    public AppEvent(String eventName, Object argument) {
+        this.eventName = eventName;
+        this.argument = argument;
+    }
+    
+    /**
+     * @return the argument
+     */
+    public Object getArgument() {
+        return argument;
+    }
+
+    /**
+     * @param argument the argument to set
+     */
+    public void setArgument(Object argument) {
+        this.argument = argument;
+    }
+
+    /**
+     * @return the eventName
+     */
+    public String getEventName() {
+        return eventName;
+    }
+
+    /**
+     * @param eventName the eventName to set
+     */
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+}

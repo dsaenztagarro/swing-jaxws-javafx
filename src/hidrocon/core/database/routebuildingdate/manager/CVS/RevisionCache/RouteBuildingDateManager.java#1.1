@@ -1,0 +1,57 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package hidrocon.core.database.routebuildingdate.manager;
+
+import hidrocon.core.database.routebuildingdate.bc.RouteBuildingDateBC;
+import hidrocon.core.database.routebuildingdate.entities.RouteBuildingDate;
+import hidrocon.core.database.routebuildingdate.entities.RouteBuildingDateView;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * @author david
+ */
+public class RouteBuildingDateManager {
+
+	public List getRouteBuildingDateList(int routeDateId) {
+		RouteBuildingDateBC bc = new RouteBuildingDateBC();
+		List list = bc.getRouteBuildingDateList(routeDateId);
+		return list;
+	}
+
+	public List getRouteBuildingDateListByBuildingId(int buildingId) {
+		RouteBuildingDateBC bc = new RouteBuildingDateBC();
+		List list = bc.getRouteBuildingDateListByBuildingId(buildingId);
+		return list;
+	}    
+    
+    /*public void createRouteBuildingDate(RouteBuildingDate routeBuildingDate) {
+		RouteBuildingDateBC bc = new RouteBuildingDateBC();
+		bc.createRouteBuildingDate(routeBuildingDate);        
+    }*/
+    
+    public void updateRouteBuildingDate(int routeDateId, List<RouteBuildingDateView> list) {
+        RouteBuildingDateBC bc = new RouteBuildingDateBC();
+        bc.deleteRouteBuildingDate(routeDateId);
+                
+        for (RouteBuildingDateView rbdv : list) {
+            RouteBuildingDate rbd = new RouteBuildingDate();
+            rbd.setId(new Integer(rbdv.getRouteBuildingDateId()));
+            rbd.setRouteId(rbdv.getRouteId());
+            rbd.setOrderId(rbdv.getOrderId());
+            rbd.setBuildingId(rbdv.getBuildingId());
+            rbd.setRouteDateId(rbdv.getRouteDateId());
+            bc.createRouteBuildingDate(rbd);
+        }
+    }
+
+    public RouteBuildingDate getRouteBuildingDate(int routeId, Date meterReadingDate) {
+		RouteBuildingDateBC bc = new RouteBuildingDateBC();
+		return bc.getRouteBuildingDate(routeId, meterReadingDate);        
+    }
+    
+}

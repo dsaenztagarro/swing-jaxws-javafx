@@ -1,0 +1,477 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7">
+  <NonVisualComponents>
+    <Container class="hidrocon.custom.menu.HidroMenuBar" name="menuBar">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="menuBar" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="dataBaseMenu">
+          <Properties>
+            <Property name="mnemonic" type="int" value="66"/>
+            <Property name="text" type="java.lang.String" resourceKey="dataBaseMenu.text"/>
+            <Property name="name" type="java.lang.String" value="dataBaseMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="routeMenu">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+R"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="routeMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="routeMenu.text"/>
+                <Property name="name" type="java.lang.String" value="routeMenu" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="buildingMenu">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="hidrocon.HidroconView" id="showBuildingsByNumfinca" methodName="showBuildingsByNumfinca"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="buildingMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="buildingMenu.text"/>
+                <Property name="name" type="java.lang.String" value="buildingMenu" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="commentMenu">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+C"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="commentMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="commentMenu.text"/>
+                <Property name="name" type="java.lang.String" value="commentMenu" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="administratorMenu">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+A"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="administratorMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="administratorMenu.text"/>
+                <Property name="name" type="java.lang.String" value="administratorMenu" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="rateMenu">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+T"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="rateMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="rateMenu.text"/>
+                <Property name="name" type="java.lang.String" value="rateMenu" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <Menu class="hidrocon.custom.menu.HidroMenu" name="configurationMenu">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="configurationMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="configurationMenu.text"/>
+                <Property name="name" type="java.lang.String" value="configurationMenu" noResource="true"/>
+              </Properties>
+              <SubComponents>
+                <Menu class="hidrocon.custom.menu.HidroMenuItem" name="systemMenu">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="systemMenu.text"/>
+                    <Property name="name" type="java.lang.String" value="systemMenu" noResource="true"/>
+                  </Properties>
+                </Menu>
+                <Menu class="hidrocon.custom.menu.HidroMenuItem" name="locationMenu">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="locationMenu.text"/>
+                    <Property name="name" type="java.lang.String" value="locationMenu" noResource="true"/>
+                  </Properties>
+                </Menu>
+                <Menu class="hidrocon.custom.menu.HidroMenuItem" name="migrationMenu">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="migrationMenu.text"/>
+                    <Property name="name" type="java.lang.String" value="migrationMenu" noResource="true"/>
+                  </Properties>
+                </Menu>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="invoiceMenu">
+          <Properties>
+            <Property name="mnemonic" type="int" value="70"/>
+            <Property name="text" type="java.lang.String" resourceKey="invoiceMenu.text"/>
+            <Property name="name" type="java.lang.String" value="invoiceMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="meterReadingMenu">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="meterReadingMenu.text"/>
+                <Property name="name" type="java.lang.String" value="meterReadingMenu" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem2.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem2" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem9">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem9.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem9" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator4" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem3.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem3" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem4">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem4.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem4" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem5">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem5.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem5" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem6">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem6.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem6" noResource="true"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="inicializvariosMenu">
+          <Properties>
+            <Property name="mnemonic" type="int" value="73"/>
+            <Property name="text" type="java.lang.String" resourceKey="inicializvariosMenu.text"/>
+            <Property name="name" type="java.lang.String" value="inicializvariosMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem7">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem7.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem7" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem8">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem8.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem8" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator5">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator5" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem10">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem10.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem10" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem11">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem11.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem11" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem12">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem12.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem12" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem13">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem13.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem13" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator6">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator6" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem14">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem14.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem14" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem15">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem15.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem15" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem16">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem16.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem16" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem17">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem17.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem17" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem18">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem18.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem18" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem19">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem19.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem19" noResource="true"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="controlMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="controlMenu.text"/>
+            <Property name="name" type="java.lang.String" value="controlMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem20">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem20.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem20" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem21">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem21.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem21" noResource="true"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="empresaMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="empresaMenu.text"/>
+            <Property name="name" type="java.lang.String" value="empresaMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem22">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem22.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem22" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem23">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem23.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem23" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem24">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem24.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem24" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem25">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem25.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem25" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem30">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem30.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem30" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem26">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem26.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem26" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem27">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem27.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem27" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem28">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem28.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem28" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="jMenuItem29">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem29.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem29" noResource="true"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="ayudaMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="ayudaMenu.text"/>
+            <Property name="name" type="java.lang.String" value="ayudaMenu" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="aboutMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="hidrocon.HidroconView" id="showAboutBox" methodName="showAboutBox"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="aboutMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="aboutMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="hidrocon.custom.menu.HidroMenuHeader" name="fileMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="fileMenu.text"/>
+            <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="newRecordMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="hidrocon.HidroconView" id="newRecord" methodName="newRecord"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="newRecordMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="deleteRecordMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="hidrocon.HidroconView" id="deleteRecord" methodName="deleteRecord"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="deleteRecordMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator1" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="saveMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="hidrocon.HidroconView" id="save" methodName="save"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="saveMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="refreshMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="hidrocon.HidroconView" id="refresh" methodName="refresh"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="refreshMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator2" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="hidrocon.custom.menu.HidroMenuItem" name="exitMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="org.jdesktop.application.Application" id="quit" methodName="quit"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="exitMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+      </SubComponents>
+    </Container>
+    <Container class="hidrocon.custom.panel.HidroMainPanel" name="blankPanel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="blankPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="750" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="568" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="component" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="blankPanel"/>
+    </Property>
+    <Property name="menuBar" type="javax.swing.JMenuBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="menuBar"/>
+    </Property>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,91,0,0,2,-18"/>
+  </AuxValues>
+</Form>

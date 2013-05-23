@@ -1,0 +1,79 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.route.details;
+
+import hidrocon.core.database.route.entities.Route;
+import hidrocon.core.generic.pattern.mvc.HidroController;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.custom.Constant;
+import java.awt.event.ActionEvent;
+import javax.swing.JDialog;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class RouteDetailsPanelController extends HidroController {
+    
+    private JDialog dialog;
+    
+    private Route route;
+    private boolean routeSaved;
+    
+    private RouteDetailsPanelModel model;
+    private RouteDetailsPanelView view;
+    
+    public RouteDetailsPanelController(RouteDetailsPanelModel model, RouteDetailsPanelView view) {
+        this.model = model;
+        this.view = view;
+        view.buttonActionListeners(this);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        
+        if (action.equals(ActionKey.ROUTE_DETAILS_EDIT)) {
+            editRoute();
+        }        
+        else if (action.equals(ActionKey.ROUTE_DETAILS_SAVE)) {
+            saveRoute();
+        }
+        else if (action.equals(ActionKey.ROUTE_DETAILS_CLOSE)) {
+            close();
+        }        
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+        routeSaved = false;
+        
+        view.writeData(route);
+    }
+    
+    public boolean isRouteSaved() {
+        return routeSaved;
+    }
+    
+    private void editRoute() {
+        view.setMode(Constant.ENTITY_MANAGEMENT_MODE_UPDATE);
+    }
+    
+    private void saveRoute() {
+        view.readData(route);
+        routeSaved = true;
+        close();
+    }
+    
+    private void close() {
+        if (dialog!=null) {
+            dialog.setVisible(false);
+        }
+    }
+    
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
+    }
+}

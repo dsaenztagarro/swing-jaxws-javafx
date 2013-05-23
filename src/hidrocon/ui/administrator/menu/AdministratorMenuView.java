@@ -1,0 +1,399 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * AdministratorMenuView.java
+ *
+ * Created on 14-sep-2011, 23:07:33
+ */
+
+package hidrocon.ui.administrator.menu;
+
+import hidrocon.HidroconView;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.custom.Constant;
+import hidrocon.custom.button.toolbar.HidroDeleteButton;
+import hidrocon.custom.button.toolbar.HidroExitButton;
+import hidrocon.custom.button.toolbar.HidroInfoButton;
+import hidrocon.custom.button.toolbar.HidroNewButton;
+import hidrocon.custom.button.toolbar.HidroPrintButton;
+import hidrocon.custom.button.toolbar.HidroSelectButton;
+import hidrocon.webservice.Administrator;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+/**
+ *
+ * @author david
+ */
+public class AdministratorMenuView extends hidrocon.custom.panel.HidroMainPanel {
+
+    private int mode;
+    
+    HidroPrintButton printButton;
+    HidroNewButton newButton;
+    HidroInfoButton infoButton;
+    HidroDeleteButton deleteButton;
+    //Selection mode buttons:
+    HidroSelectButton selectButton;
+    HidroExitButton closeButton;
+        
+	private final int COLUMN_NUMBER = 0;
+	private final int COLUMN_NAME = 1;
+    
+    /** Creates new form AdministratorMenuView */
+    public AdministratorMenuView(int mode) {
+        this.mode = mode;
+        initComponents();
+		initTopPanel();
+        initFocus();     
+        customizeComponents();
+    }
+    
+	/*
+	 * Toolbar initialization
+	 */
+    
+	private void initTopPanel() {
+		org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(HidroconView.class);
+		if (this.mode == Constant.ENTITY_MANAGEMENT_MODE_DEFAULT) {
+            topPanel.setTitle("  " + resourceMap.getString("administrator.toppanel.title"));
+        } 
+        else if (this.mode == Constant.ENTITY_MANAGEMENT_MODE_SELECTION) {
+            topPanel.setTitle("  " + resourceMap.getString("administrator.selection.toppanel.title"));
+        }
+		
+        printButton = new HidroPrintButton();
+		newButton = new HidroNewButton();
+		infoButton = new HidroInfoButton();
+		deleteButton = new HidroDeleteButton();
+        selectButton = new HidroSelectButton();
+        closeButton = new HidroExitButton();
+        
+		printButton.setToolTipText(resourceMap.getString("administrator.toolbar.printbutton.tooltip"));
+		newButton.setToolTipText(resourceMap.getString("administrator.toolbar.newbutton.tooltip"));
+		infoButton.setToolTipText(resourceMap.getString("administrator.toolbar.infobutton.tooltip"));
+		deleteButton.setToolTipText(resourceMap.getString("administrator.toolbar.deletebutton.tooltip"));
+        selectButton.setToolTipText(resourceMap.getString("administrator.toolbar.selectbutton.tooltip"));
+        closeButton.setToolTipText(resourceMap.getString("administrator.toolbar.exitbutton.tooltip"));        
+        
+        if (mode == Constant.ENTITY_MANAGEMENT_MODE_DEFAULT) {
+            topPanel.addButton(printButton);
+            topPanel.addButton(newButton);
+            topPanel.addButton(infoButton);
+            topPanel.addButton(deleteButton);
+        }
+        if (mode == Constant.ENTITY_MANAGEMENT_MODE_SELECTION) {
+            topPanel.addButton(selectButton);
+            topPanel.addButton(closeButton);
+        }        
+	}
+
+    private void customizeComponents() {
+        if (mode == Constant.ENTITY_MANAGEMENT_MODE_SELECTION) {
+            administratorsTable.getColumnModel().removeColumn(administratorsTable.getColumnModel().getColumn(2));
+        }
+        
+        initSearchFields();
+    }
+    
+    private void initFocus() {
+        //administratorsTable.setFocusCycleRoot(true);
+        //administratorsTable.changeSelection(0,0,false,false);
+        //administratorsTable.requestFocusInWindow();
+    }
+
+
+    /*
+     * ISelector Management Operations
+     */    
+    
+    public Administrator getSelection() {
+        int[] rowIndex = administratorsTable.getSelectedRows();
+        if (rowIndex.length == 1) {
+            return administratorsList.get(administratorsTable.convertRowIndexToModel(rowIndex[0]));
+        }
+        return null;
+    }
+    
+    
+    /*
+     * Search filter methods
+     */
+
+    private void initSearchFields() {
+        initSearchNomAdmin();
+        initSearchNumAdmin();
+    }
+
+    private void initSearchNomAdmin() {
+        nomadmField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                    newNomAdminFilter();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                    newNomAdminFilter();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                    newNomAdminFilter();
+            }
+        });
+    }
+	
+    private void initSearchNumAdmin() {
+        numadmField.getDocument().addDocumentListener(
+        new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                newNumAdminFilter();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                newNumAdminFilter();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                newNumAdminFilter();
+            }
+        });
+    }
+
+    private void newNomAdminFilter() {
+		String value = nomadmField.getText();
+		if (value!=null && !value.equals("")) {
+			clearOtherFilters(COLUMN_NAME);
+			administratorsTable.newFilter(value, COLUMN_NAME);
+		} else {
+			administratorsTable.clearFilter();
+		}
+    }
+
+    private void newNumAdminFilter() {		
+		String value = numadmField.getText();
+		if (value!=null && !value.equals("")) {
+			clearOtherFilters(COLUMN_NUMBER);
+			administratorsTable.newNumberFilter(new Integer(value), COLUMN_NUMBER);
+		} else {
+			administratorsTable.clearFilter();
+		}
+    }
+
+	private void clearOtherFilters(int selectedColumn) {
+		if (selectedColumn == COLUMN_NAME) {
+			numadmField.setText("");
+		}
+		else if (selectedColumn == COLUMN_NUMBER) {
+			nomadmField.setText("");
+		}
+	}
+    
+	/*
+	 * IPanelDialog implementation - END
+	 */     
+    
+	public void refreshAdministratorList() {
+		java.util.List auxList = new java.util.ArrayList();
+		auxList.addAll(administratorsList);
+		administratorsList.clear();
+		administratorsList.addAll(auxList);
+	}    
+    
+    public Administrator getAdministratorSelected() {
+		if (administratorsTable.getSelectedRow() > -1) {
+			return administratorsList.get(administratorsTable.convertRowIndexToModel(administratorsTable.getSelectedRow()));
+        }
+        return null;
+    }
+    
+    public void addAdministrator(Administrator administrator) {
+        administratorsList.add(administrator);
+    }
+    
+    public void removeAdministrator(Administrator administrator) {
+        administratorsList.remove(administrator);        
+    }  
+    
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        administratorsList = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList());
+        topPanel = new hidrocon.custom.panel.HidroTopPanel();
+        mainPanel = new hidrocon.custom.panel.HidroMainPanel();
+        mainTopPanel = new hidrocon.custom.panel.HidroPanel();
+        nomadmLabel = new hidrocon.custom.label.HidroLabel();
+        nomadmField = new hidrocon.custom.field.HidroTextField();
+        nomadmLegend = new hidrocon.custom.legend.FilterLegend();
+        numadmLabel = new hidrocon.custom.label.HidroLabel();
+        numadmField = new hidrocon.custom.field.HidroTextField();
+        numadmLegend = new hidrocon.custom.legend.FilterLegend();
+        administratorsScrollPane = new javax.swing.JScrollPane();
+        administratorsTable = new hidrocon.custom.table.HidroTable();
+        leftFiller = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(25, 32767));
+        rightFiller = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
+        bottomFiller = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+
+        setName("Form"); // NOI18N
+        setLayout(new java.awt.BorderLayout());
+
+        topPanel.setName("topPanel"); // NOI18N
+        add(topPanel, java.awt.BorderLayout.PAGE_START);
+
+        mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.setLayout(new java.awt.BorderLayout());
+
+        mainTopPanel.setName("mainTopPanel"); // NOI18N
+        mainTopPanel.setPreferredSize(new java.awt.Dimension(712, 45));
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(hidrocon.HidroconApp.class).getContext().getResourceMap(AdministratorMenuView.class);
+        nomadmLabel.setText(resourceMap.getString("nomadmLabel.text")); // NOI18N
+        nomadmLabel.setName("nomadmLabel"); // NOI18N
+
+        nomadmField.setEditable(true);
+        nomadmField.setName("nomadmField"); // NOI18N
+
+        nomadmLegend.setName("nomadmLegend"); // NOI18N
+
+        numadmLabel.setText(resourceMap.getString("numadmLabel.text")); // NOI18N
+        numadmLabel.setName("numadmLabel"); // NOI18N
+
+        numadmField.setEditable(true);
+        numadmField.setName("numadmField"); // NOI18N
+
+        numadmLegend.setName("numadmLegend"); // NOI18N
+
+        javax.swing.GroupLayout mainTopPanelLayout = new javax.swing.GroupLayout(mainTopPanel);
+        mainTopPanel.setLayout(mainTopPanelLayout);
+        mainTopPanelLayout.setHorizontalGroup(
+            mainTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainTopPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(nomadmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomadmField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(nomadmLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(numadmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(numadmField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(numadmLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(324, Short.MAX_VALUE))
+        );
+        mainTopPanelLayout.setVerticalGroup(
+            mainTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainTopPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(numadmLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomadmLegend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(mainTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nomadmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nomadmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numadmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numadmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(mainTopPanel, java.awt.BorderLayout.PAGE_START);
+
+        administratorsScrollPane.setName("administratorsScrollPane"); // NOI18N
+
+        administratorsTable.setName("administratorsTable"); // NOI18N
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, administratorsList, administratorsTable);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${administratorId}"));
+        columnBinding.setColumnName("Administrator Id");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${administratorName}"));
+        columnBinding.setColumnName("Administrator Name");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
+        columnBinding.setColumnName("Address");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        administratorsScrollPane.setViewportView(administratorsTable);
+        administratorsTable.getColumnModel().getColumn(0).setMinWidth(75);
+        administratorsTable.getColumnModel().getColumn(0).setPreferredWidth(75);
+        administratorsTable.getColumnModel().getColumn(0).setMaxWidth(75);
+        administratorsTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("administratorsTable.columnModel.title0")); // NOI18N
+        administratorsTable.getColumnModel().getColumn(1).setMinWidth(275);
+        administratorsTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("administratorsTable.columnModel.title1")); // NOI18N
+        administratorsTable.getColumnModel().getColumn(2).setMinWidth(250);
+        administratorsTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        administratorsTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("administratorsTable.columnModel.title2")); // NOI18N
+
+        mainPanel.add(administratorsScrollPane, java.awt.BorderLayout.CENTER);
+
+        leftFiller.setName("leftFiller"); // NOI18N
+        mainPanel.add(leftFiller, java.awt.BorderLayout.LINE_START);
+
+        rightFiller.setName("rightFiller"); // NOI18N
+        mainPanel.add(rightFiller, java.awt.BorderLayout.LINE_END);
+
+        bottomFiller.setName("bottomFiller"); // NOI18N
+        mainPanel.add(bottomFiller, java.awt.BorderLayout.PAGE_END);
+
+        add(mainPanel, java.awt.BorderLayout.CENTER);
+
+        bindingGroup.bind();
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.util.List<Administrator> administratorsList;
+    private javax.swing.JScrollPane administratorsScrollPane;
+    private hidrocon.custom.table.HidroTable administratorsTable;
+    private javax.swing.Box.Filler bottomFiller;
+    private javax.swing.Box.Filler leftFiller;
+    private hidrocon.custom.panel.HidroMainPanel mainPanel;
+    private hidrocon.custom.panel.HidroPanel mainTopPanel;
+    private hidrocon.custom.field.HidroTextField nomadmField;
+    private hidrocon.custom.label.HidroLabel nomadmLabel;
+    private hidrocon.custom.legend.FilterLegend nomadmLegend;
+    private hidrocon.custom.field.HidroTextField numadmField;
+    private hidrocon.custom.label.HidroLabel numadmLabel;
+    private hidrocon.custom.legend.FilterLegend numadmLegend;
+    private javax.swing.Box.Filler rightFiller;
+    private hidrocon.custom.panel.HidroTopPanel topPanel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+
+    public void buttonActionListeners(ActionListener al) {
+        printButton.setActionCommand(ActionKey.ADMINISTRATOR_PRINT);
+	printButton.addActionListener(al);
+	newButton.setActionCommand(ActionKey.ADMINISTRATOR_CREATE);
+        newButton.addActionListener(al);
+        infoButton.setActionCommand(ActionKey.ADMINISTRATOR_UPDATE);
+	infoButton.addActionListener(al);
+        deleteButton.setActionCommand(ActionKey.ADMINISTRATOR_DELETE);
+	deleteButton.addActionListener(al);        
+        selectButton.setActionCommand(ActionKey.ADMINISTRATOR_SELECT);
+	selectButton.addActionListener(al);        
+        closeButton.setActionCommand(ActionKey.ADMINISTRATOR_CLOSE);
+	closeButton.addActionListener(al);
+    }
+    
+    public void tableKeyListeners(KeyListener kl) {
+        administratorsTable.addKeyListener(kl);
+    }
+    
+    public void tableMouseListeners(MouseListener ml) {
+        administratorsTable.addMouseListener(ml);
+    }
+        
+}

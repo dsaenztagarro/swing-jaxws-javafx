@@ -1,0 +1,93 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.comment.panels.details;
+
+import hidrocon.core.database.comment.entities.Comment;
+import hidrocon.core.utils.ActionKey;
+import hidrocon.custom.Constant;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JDialog;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class CommentDetailsController implements ActionListener, KeyListener {
+    
+    private JDialog dialog;
+    
+    private Comment comment;
+    private boolean commentSaved;
+    
+    private CommentDetailsModel model;
+    private CommentDetailsView view;
+    
+    public CommentDetailsController(CommentDetailsModel model, CommentDetailsView view) {
+        this.model = model;
+        this.view = view;
+        view.buttonActionListeners(this);
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        
+        if (action.equals(ActionKey.COMMENT_DETAILS_EDIT)) {
+            editComment();
+        }        
+        else if (action.equals(ActionKey.COMMENT_DETAILS_SAVE)) {
+            saveComment();
+        }
+        else if (action.equals(ActionKey.COMMENT_DETAILS_CLOSE)) {
+            close();
+        }        
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+        commentSaved = false;
+        
+        view.writeData(comment);
+    }
+    
+    public boolean isCommentSaved() {
+        return commentSaved;
+    }
+    
+    private void editComment() {
+        view.setMode(Constant.ENTITY_MANAGEMENT_MODE_UPDATE);
+    }
+    
+    private void saveComment() {
+        view.readData(comment);
+        commentSaved = true;
+        close();
+    }
+    
+    private void close() {
+        if (dialog!=null) {
+            dialog.setVisible(false);
+        }
+    }
+        
+    public void keyTyped(KeyEvent e) {
+        //do nothing
+    }
+
+    public void keyPressed(KeyEvent evt) {
+        int keyCode = evt.getKeyCode();
+
+    }
+
+    public void keyReleased(KeyEvent e) {
+        //do nothing
+    }
+    
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
+    }
+}

@@ -1,0 +1,91 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hidrocon.ui.building.details;
+
+import hidrocon.HidroconApp;
+import hidrocon.core.database.administrator.entities.Administrator;
+import hidrocon.core.database.building.entities.Building;
+import hidrocon.core.database.rate.entities.Rate;
+import hidrocon.custom.Constant;
+import hidrocon.custom.dialog.HidroDialog;
+import hidrocon.custom.dialog.interfaces.IEntityManager;
+import hidrocon.custom.dialog.interfaces.ISelector;
+import hidrocon.custom.utils.HidroDialogFactory;
+import java.awt.Component;
+import java.util.Date;
+
+/**
+ *
+ * @author David Sáenz Tagarro
+ */
+public class BuildingDetailsPanelModel {
+    
+    private Building building;
+    
+    public void addRouteDate() {
+        HidroDialogFactory hdf = HidroDialogFactory.getInstance();
+        HidroDialog dialog = hdf.getDialog(HidroDialogFactory.ROUTE_DATE_SELECTION);
+        HidroconApp.getApplication().show(dialog);         
+        
+        ISelector sDialog = (ISelector)dialog;
+        if (sDialog.isSelection()) {
+            Date date = (Date)sDialog.getSelection();
+        }
+    }
+    
+    public void deleteRouteDate() {
+        //do nothing
+    }  
+        
+    public void showAdministrator(Administrator administrator) {
+        HidroDialogFactory hdf = HidroDialogFactory.getInstance();
+        HidroDialog dialog = hdf.getDialog(HidroDialogFactory.BUILDING_DETAILS_ADMINISTRATOR);
+        IEntityManager emDialog = (IEntityManager)dialog;
+        emDialog.setEntity(administrator);
+        emDialog.setMode(Constant.ENTITY_MANAGEMENT_MODE_SUMMARY);
+        HidroconApp.getApplication().show(dialog);            
+    }
+    
+    public void showRate(Rate rate) {        
+        HidroDialogFactory hdf = HidroDialogFactory.getInstance();
+        HidroDialog dialog = hdf.getDialog(HidroDialogFactory.BUILDING_DETAILS_RATE);
+        IEntityManager emDialog = (IEntityManager)dialog;
+        emDialog.setEntity(rate);
+        emDialog.setMode(Constant.ENTITY_MANAGEMENT_MODE_SUMMARY);
+        HidroconApp.getApplication().show(dialog);            
+    }
+    
+    public Administrator updateAdministrator() {
+        Administrator administrator = null;
+        
+        HidroDialogFactory hdf = HidroDialogFactory.getInstance();
+        HidroDialog dialog = hdf.getDialog(HidroDialogFactory.ADMINISTRATOR_SELECTION);
+        HidroconApp.getApplication().show(dialog);
+        
+        ISelector sDialog = (ISelector)dialog;
+        if (sDialog.isSelection()) {
+            administrator = (Administrator)sDialog.getSelection();
+        }
+        return administrator;
+    }
+    
+	public void saveBuilding() {
+		//buildingSaved = true;
+        //close();
+	}
+    
+    public void showRouteBuildingDate(Component component) {
+        System.out.println("component: " + component);
+    }
+    
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+    
+    public Building getBuilding() {
+        return building;
+    }
+  
+}
